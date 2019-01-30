@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IDE</title>
+</head>
+<body>
+
+<div style="width:100%;text-align:center">
+<form action="/run" method="post">
+    <textarea id="myInput" name="source" rows="30" cols="180">${lastSource!}</textarea>
+    <br/>
+    <input type="submit" value="Run" />
+    <script type="text/javascript">
+        var myInput = document.getElementById("myInput");
+        str = "    ";
+        if(myInput.addEventListener ) {
+            myInput.addEventListener('keydown',this.keyHandler,false);
+        } else if(myInput.attachEvent ) {
+            myInput.attachEvent('onkeydown',this.keyHandler); /* damn IE hack */
+        }
+
+        function keyHandler(e) {
+            var TABKEY = 9;
+            if(e.keyCode == TABKEY) {
+                insertText(myInput,str);
+                if(e.preventDefault) {
+                    e.preventDefault();
+                }
+            }
+        }
+        function insertText(obj,str) {
+            if (document.selection) {
+                var sel = document.selection.createRange();
+                sel.text = str;
+            } else if (typeof obj.selectionStart === 'number' && typeof obj.selectionEnd === 'number') {
+                var startPos = obj.selectionStart,
+                    endPos = obj.selectionEnd,
+                    cursorPos = startPos,
+                    tmpStr = obj.value;
+                obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
+                cursorPos += str.length;
+                obj.selectionStart = obj.selectionEnd = cursorPos;
+            } else {
+                obj.value += str;
+            }
+        }
+    </script>
+</form>
+</div>
+
+<div id="showRunResult" style="border:1px solid; padding: 3px; width:70%; margin-top:5px;
+position:absolute;left:50%;transform:translate(-50%);">${runResult!}</div>
+
+</body>
+</html>
