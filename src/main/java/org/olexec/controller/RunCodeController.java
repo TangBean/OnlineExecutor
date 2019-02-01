@@ -25,7 +25,7 @@ public class RunCodeController {
     @RequestMapping(path = {"/run"}, method = RequestMethod.POST)
     public String runCode(@RequestParam("source") String source, Model model) {
         String runResult = executeStringSourceService.execute(source);
-        runResult = runResult.replaceAll("\r\n", "<br/>"); // 处理html中换行的问题
+        runResult = runResult.replaceAll(System.lineSeparator(), "<br/>"); // 处理html中换行的问题
 
         model.addAttribute("lastSource", source);
         model.addAttribute("runResult", runResult);

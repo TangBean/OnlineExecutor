@@ -14,11 +14,10 @@ import java.util.regex.Pattern;
 public class StringSourceCompiler {
     private static Map<String, JavaFileObject> fileObjectMap = new ConcurrentHashMap<>();
 
-    public static byte[] compile(String source) {
+    public static byte[] compile(String source, DiagnosticCollector<JavaFileObject> compileCollector) {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        DiagnosticCollector<JavaFileObject> collector = new DiagnosticCollector<>();
         JavaFileManager javaFileManager =
-                new TmpJavaFileManager(compiler.getStandardFileManager(collector, null, null));
+                new TmpJavaFileManager(compiler.getStandardFileManager(compileCollector, null, null));
 
         // 从源码字符串中匹配类名
         Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s*");
@@ -33,7 +32,7 @@ public class StringSourceCompiler {
         // 把源码字符串构造成JavaFileObject，供编译使用
         JavaFileObject sourceJavaFileObject = new TmpJavaFileObject(className, source);
 
-        Boolean result = compiler.getTask(null, javaFileManager, collector,
+        Boolean result = compiler.getTask(null, javaFileManager, compileCollector,
                 null, null, Arrays.asList(sourceJavaFileObject)).call();
 
         JavaFileObject bytesJavaFileObject = fileObjectMap.get(className);

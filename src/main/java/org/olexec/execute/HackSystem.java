@@ -14,58 +14,47 @@ public final class HackSystem {
 
     public final static InputStream in = System.in;
 
-    private static ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-    public final static PrintStream out = new PrintStream(buffer);
+    public final static PrintStream out = new HackPrintStream();
 
     public final static PrintStream err = out;
 
     public static String getBufferString() {
-        return buffer.toString();
+        return out.toString();
     }
 
-    public static void clearBuffer() {
-        buffer.reset();
+    public static void closeBuffer() {
+        out.close();
     }
 
     private static volatile SecurityManager security = null;
 
     public static void setIn(InputStream in) {
-        System.setIn(in);
+        throw new SecurityException("Use hazardous method: System.setIn().");
     }
 
     public static void setOut(PrintStream out) {
-        System.setOut(out);
+        throw new SecurityException("Use hazardous method: System.setOut().");
     }
 
     public static void setErr(PrintStream err) {
-        System.setErr(err);
+        throw new SecurityException("Use hazardous method: System.setErr().");
     }
 
-    private static volatile Console cons = null;
-
     public static Console console() {
-        return System.console();
+        throw new SecurityException("Use hazardous method: System.console().");
     }
 
     public static Channel inheritedChannel() throws IOException {
-        return System.inheritedChannel();
-    }
-
-    private static void checkIO() {
-        SecurityManager sm = getSecurityManager();
-        if (sm != null) {
-            sm.checkPermission(new RuntimePermission("setIO"));
-        }
+        throw new SecurityException("Use hazardous method: System.inheritedChannel().");
     }
 
     public static
     void setSecurityManager(final SecurityManager s) {
-        System.setSecurityManager(s);
+        throw new SecurityException("Use hazardous method: System.setSecurityManager().");
     }
 
     public static SecurityManager getSecurityManager() {
-        return security;
+        throw new SecurityException("Use hazardous method: System.getSecurityManager().");
     }
 
     public static long currentTimeMillis() {
@@ -87,71 +76,69 @@ public final class HackSystem {
     }
 
     public static Properties getProperties() {
-        return System.getProperties();
+        throw new SecurityException("Use hazardous method: System.getProperties().");
     }
 
     public static String lineSeparator() {
-        return lineSeparator;
+        return System.lineSeparator();
     }
 
-    private static String lineSeparator;
-
     public static void setProperties(Properties props) {
-        System.setProperties(props);
+        throw new SecurityException("Use hazardous method: System.setProperties().");
     }
 
     public static String getProperty(String key) {
-        return System.getProperty(key);
+        throw new SecurityException("Use hazardous method: System.getProperty().");
     }
 
     public static String getProperty(String key, String def) {
-        return System.getProperty(key, def);
+        throw new SecurityException("Use hazardous method: System.getProperty().");
     }
 
     public static String setProperty(String key, String value) {
-        return System.setProperty(key, value);
+        throw new SecurityException("Use hazardous method: System.setProperty().");
     }
 
     public static String clearProperty(String key) {
-        return System.clearProperty(key);
+        throw new SecurityException("Use hazardous method: System.clearProperty().");
     }
 
     public static String getenv(String name) {
-        return System.getenv(name);
+        throw new SecurityException("Use hazardous method: System.getenv().");
     }
 
     public static java.util.Map<String,String> getenv() {
-        return System.getenv();
+        throw new SecurityException("Use hazardous method: System.getenv().");
     }
 
     public static void exit(int status) {
-        System.exit(status);
+        throw new SecurityException("Use hazardous method: System.exit().");
     }
 
     public static void gc() {
-        System.gc();
+        throw new SecurityException("Use hazardous method: System.gc().");
     }
 
     public static void runFinalization() {
-        System.runFinalization();
+        throw new SecurityException("Use hazardous method: System.runFinalization().");
     }
 
     @Deprecated
     public static void runFinalizersOnExit(boolean value) {
-        System.runFinalizersOnExit(value);
+        throw new SecurityException("Use hazardous method: System.runFinalizersOnExit().");
     }
 
     @CallerSensitive
     public static void load(String filename) {
-        System.load(filename);
+        throw new SecurityException("Use hazardous method: System.load().");
     }
 
     @CallerSensitive
     public static void loadLibrary(String libname) {
-        System.loadLibrary(libname);
+        throw new SecurityException("Use hazardous method: System.loadLibrary().");
     }
 
     public static String mapLibraryName(String libname) {
-        return System.mapLibraryName(libname);
+        throw new SecurityException("Use hazardous method: System.mapLibraryName().");
     }
 }

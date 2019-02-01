@@ -14,11 +14,11 @@ import java.lang.reflect.Method;
  * 5. 通过反射调用Class对象的main方法
  * 6. 从HackSystem中获取返回结果
  */
-public class JavaClassExecuter {
-    public static String execute(byte[] classByte) {
-        // 1. 清空HackSystem中的缓存
-        HackSystem.clearBuffer();
+public class JavaClassExecutor {
+    /* 程序中正在运行的客户端代码个数 */
+//    private static volatile AtomicInteger runningCount = new AtomicInteger(0);
 
+    public static String execute(byte[] classByte) {
         // 2. new ClassModifier，并传入需要被修改的字节数组
         ClassModifier cm = new ClassModifier(classByte);
 
@@ -31,6 +31,7 @@ public class JavaClassExecuter {
         Class clazz = classLoader.loadByte(modifyBytes);
 
         // 5. 通过反射调用Class对象的main方法
+//        runningCount.incrementAndGet();
         try {
             Method mainMethod = clazz.getMethod("main", new Class[] { String[].class });
             mainMethod.invoke(null, new String[] { null });
@@ -44,11 +45,14 @@ public class JavaClassExecuter {
             由于这部分异常是远程执行代码的异常，我们要把异常栈反馈给客户端，
             所以不能使用默认的无参 printStackTrace() 把信息 print 到 System.err 中，
             而是要把异常信息 print 到 HackSystem.err 以反馈给客户端
-             */
+            */
             e.getCause().printStackTrace(HackSystem.err);
         }
+//        runningCount.addAndGet(-1);
 
         // 6. 从HackSystem中获取返回结果
-        return HackSystem.getBufferString();
+        String res = HackSystem.getBufferString();
+        HackSystem.closeBuffer();
+        return res;
     }
 }
