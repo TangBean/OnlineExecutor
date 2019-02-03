@@ -44,7 +44,7 @@ public class ClassModifier {
     public byte[] modifyUTF8Constant(String oldStr, String newStr) {
         int cpc = getConstantPoolCount();
         int offset = CONSTANT_POOL_COUNT_INDEX + u2;  // 真实的常量起始位置
-        for (int i = 0; i < cpc; i++) {
+        for (int i = 1; i < cpc; i++) {
             int tag = ByteUtils.byte2Int(classByte, offset, u1);
             if (tag == CONSTANT_UTF8_INFO) {
                 int len = ByteUtils.byte2Int(classByte, offset + u1, u2);
@@ -67,6 +67,5 @@ public class ClassModifier {
         }
         return classByte;
     }
-
 
 }

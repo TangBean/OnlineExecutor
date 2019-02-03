@@ -1,7 +1,5 @@
 package org.olexec.execute;
 
-import java.util.Arrays;
-
 public class ByteUtils {
 
     public static int byte2Int(byte[] b, int start, int len) {
@@ -38,14 +36,5 @@ public class ByteUtils {
         System.arraycopy(oldBytes, offset + len, newBytes, offset + replaceBytes.length,
                 oldBytes.length - offset - len);
         return newBytes;
-    }
-
-    public static void main(String[] args) {
-        byte[] b = string2Byte("a");
-        System.out.println(Arrays.toString(b));
-        int num = byte2Int(b, 0, b.length);
-        System.out.println(num);
-        b = int2Byte(num, b.length);
-        System.out.println(Arrays.toString(b));
     }
 }
