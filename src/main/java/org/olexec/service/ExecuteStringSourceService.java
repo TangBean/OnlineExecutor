@@ -51,7 +51,7 @@ public class ExecuteStringSourceService {
         } catch (InterruptedException e) {
             runResult = "Program interrupted.";
         } catch (ExecutionException e) {
-            runResult = "Runtime Error.";
+            runResult = e.getCause().getMessage();
         } catch (TimeoutException e) {
             runResult = "Time Limit Exceeded.";
         } finally {

@@ -3,8 +3,8 @@ package org.olexec.execute;
 import java.io.*;
 
 public class HackPrintStream extends PrintStream {
-    private ThreadLocal<ByteArrayOutputStream> out;
-    private ThreadLocal<Boolean> trouble;
+    private ThreadLocal<ByteArrayOutputStream> out; // 每个线程的标准输出流
+    private ThreadLocal<Boolean> trouble; // 每个线程的标准输出写入过程是否抛出IOException
 
     public HackPrintStream() {
         super(new ByteArrayOutputStream());
@@ -43,8 +43,6 @@ public class HackPrintStream extends PrintStream {
         }
     }
 
-    private boolean closing = false; /* To avoid recursive closing */
-
     /**
      * Closes the stream.  This is done by flushing the stream and then closing
      * the underlying output stream.
@@ -52,16 +50,13 @@ public class HackPrintStream extends PrintStream {
      * @see        java.io.OutputStream#close()
      */
     public void close() {
-        if (!closing) {
-            closing = true;
-            try {
-                out.get().close();
-            }
-            catch (IOException x) {
-                trouble.set(true);
-            }
-            out.remove();
+        try {
+            out.get().close();
         }
+        catch (IOException x) {
+            trouble.set(true);
+        }
+        out.remove();
     }
 
     /**

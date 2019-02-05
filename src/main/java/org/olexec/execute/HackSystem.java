@@ -18,10 +18,16 @@ public final class HackSystem {
 
     public final static PrintStream err = out;
 
+    /**
+     * 获取当前线程的输出流中的内容
+     */
     public static String getBufferString() {
         return out.toString();
     }
 
+    /**
+     * 关闭当前线程的输出流
+     */
     public static void closeBuffer() {
         out.close();
     }
@@ -65,9 +71,7 @@ public final class HackSystem {
         return System.nanoTime();
     }
 
-    public static void arraycopy(Object src,  int  srcPos,
-                                        Object dest, int destPos,
-                                        int length) {
+    public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length) {
         System.arraycopy(src, srcPos, dest, destPos, length);
     }
 

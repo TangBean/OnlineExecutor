@@ -31,7 +31,7 @@
 
 
 
-## 实现编译模块
+## 实现编译模块：StringSourceCompiler
 
 通过 JDK 1.6 后新加的动态编译实现 `StringSourceCompiler`，使用动态编译，可以直接在内存中将源代码字符串编译为字节码的字节数组，这样既不会污染环境，又不会额外的引入 IO 操作，一举两得。
 
@@ -39,14 +39,13 @@
 
 
 
-## 实现运行模块
+## 实现运行模块：JavaClassExecuter
 
-`JavaClassExecuter` 的实现分为以下两步：
+`JavaClassExecuter` 的实现分为以下几步：
 
 - [执行字节码的入口方法（main 方法）](./doc/02-执行字节码的入口方法.md)
-- [收集代码执行结果](./doc/03-收集代码执行结果.md)
+- 收集代码执行结果
+	- [字节码修改器](./doc/03-收集代码执行结果：字节码修改器.md)
+	- [实现 HackSystem](./doc/04-收集代码执行结果：实现HackSystem.md)
 
-
-
-## 解决并发结果收集问题
 
