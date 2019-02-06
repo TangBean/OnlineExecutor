@@ -134,6 +134,14 @@ private ThreadLocal<ByteArrayOutputStream> out;
 private ThreadLocal<Boolean> trouble;
 ```
 
+> **ThreadLocal 实现原理：**
+>
+> - 每一个 ThreadLocal 都有一个唯一的的 ThreadLocalHashCode；
+> - 每一个线程中有一个专门保存这个 HashCode 的 `Map<ThreadLocalHashCode, 对应变量的值>`；
+> - 当 `ThreadLocal#get()` 时，实际上是当前线程先拿到这个 ThreadLocal 对象的 ThreadLocalHashCode，然后通过这个 ThreadLocalHashCode 去自己内部的 Map 中去取值。
+> 	- 即每个线程对应的变量不是存储在 ThreadLocal 对象中的，而是存在当前线程对象中的，线程自己保管封存在自己内部的变量，达到线程封闭的目的。
+> 	- 也就是说，ThreadLocal 对象并不负责保存数据，它只是一个访问入口。
+
 在进行了以上的修改之后，我们还需要将 HackPrintStream 的父类 PrintStream 中所有对流进行操作的方法进行重写。我们下面将举几个例子，对如何重写父类的方法进行说明。
 
 ### ensureOpen 方法
