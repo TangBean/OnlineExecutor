@@ -13,8 +13,10 @@ import java.util.regex.Pattern;
 
 public class StringSourceCompiler {
     private static Map<String, JavaFileObject> fileObjectMap = new ConcurrentHashMap<>();
-    // 使用 Pattern 预编译功能
+
+    /** 使用 Pattern 预编译功能 */
     private static Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s*");
+
     public static byte[] compile(String source, DiagnosticCollector<JavaFileObject> compileCollector) {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         JavaFileManager javaFileManager =

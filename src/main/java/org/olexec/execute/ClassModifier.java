@@ -41,6 +41,12 @@ public class ClassModifier {
         return ByteUtils.byte2Int(classByte, CONSTANT_POOL_COUNT_INDEX, u2);
     }
 
+    /**
+     * 字节码修改器，替换字节码常量池中 oldStr 为 newStr
+     * @param oldStr
+     * @param newStr
+     * @return 修改后的字节码字节数组
+     */
     public byte[] modifyUTF8Constant(String oldStr, String newStr) {
         int cpc = getConstantPoolCount();
         int offset = CONSTANT_POOL_COUNT_INDEX + u2;  // 真实的常量起始位置
