@@ -13,14 +13,14 @@ import java.util.regex.Pattern;
 
 public class StringSourceCompiler {
     private static Map<String, JavaFileObject> fileObjectMap = new ConcurrentHashMap<>();
-
+    // 使用 Pattern 预编译功能
+    private static Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s*");
     public static byte[] compile(String source, DiagnosticCollector<JavaFileObject> compileCollector) {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         JavaFileManager javaFileManager =
                 new TmpJavaFileManager(compiler.getStandardFileManager(compileCollector, null, null));
 
         // 从源码字符串中匹配类名
-        Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s*");
         Matcher matcher = CLASS_PATTERN.matcher(source);
         String className;
         if (matcher.find()) {
