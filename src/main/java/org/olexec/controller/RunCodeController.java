@@ -17,8 +17,15 @@ public class RunCodeController {
     @Autowired
     private ExecuteStringSourceService executeStringSourceService;
 
+    private static final String defaultSource = "public class Run {\n"
+            + "    public static void main(String[] args) {\n"
+            + "        \n"
+            + "    }\n"
+            + "}";
+
     @RequestMapping(path = {"/"}, method = RequestMethod.GET)
-    public String entry() {
+    public String entry(Model model) {
+        model.addAttribute("lastSource", defaultSource);
         return "ide";
     }
 
