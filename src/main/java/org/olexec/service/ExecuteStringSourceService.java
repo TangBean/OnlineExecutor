@@ -12,7 +12,15 @@ import java.util.concurrent.*;
 
 @Service
 public class ExecuteStringSourceService {
+    /* 客户端发来的程序的运行时间限制 */
     private static final int RUN_TIME_LIMITED = 15;
+
+    /* N_THREAD = N_CPU + 1，因为是 CPU 密集型的操作 */
+    private static final int N_THREAD = 5;
+
+    /* 负责执行客户端代码的线程池，根据《Java 开发手册》不可用 Executor 创建，有 OOM 的可能 */
+    private static final ExecutorService pool = new ThreadPoolExecutor(N_THREAD, N_THREAD,
+            60L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(N_THREAD));
 
     public String execute(String source) {
         DiagnosticCollector<JavaFileObject> compileCollector = new DiagnosticCollector<>(); // 编译结果收集器
@@ -35,7 +43,6 @@ public class ExecuteStringSourceService {
         }
 
         // 运行字节码的main方法
-        ExecutorService pool = Executors.newSingleThreadExecutor();
         Callable<String> runTask = new Callable<String>() {
             @Override
             public String call() throws Exception {
@@ -54,8 +61,6 @@ public class ExecuteStringSourceService {
             runResult = e.getCause().getMessage();
         } catch (TimeoutException e) {
             runResult = "Time Limit Exceeded.";
-        } finally {
-            pool.shutdown();
         }
         return runResult;
     }
