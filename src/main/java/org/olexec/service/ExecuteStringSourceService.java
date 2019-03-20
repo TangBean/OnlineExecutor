@@ -61,6 +61,8 @@ public class ExecuteStringSourceService {
             runResult = e.getCause().getMessage();
         } catch (TimeoutException e) {
             runResult = "Time Limit Exceeded.";
+        } finally {
+            res.cancel(true);
         }
         return runResult;
     }
