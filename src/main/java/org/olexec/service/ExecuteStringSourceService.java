@@ -22,6 +22,9 @@ public class ExecuteStringSourceService {
     private static final ExecutorService pool = new ThreadPoolExecutor(N_THREAD, N_THREAD,
             60L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(N_THREAD));
 
+    private static final String WAIT_WARNING = "服务器忙，请稍后提交";
+    private static final String NO_OUTPUT = "Nothing.";
+
     public String execute(String source) {
         DiagnosticCollector<JavaFileObject> compileCollector = new DiagnosticCollector<>(); // 编译结果收集器
 
@@ -49,7 +52,13 @@ public class ExecuteStringSourceService {
                 return JavaClassExecutor.execute(classBytes);
             }
         };
-        Future<String> res = pool.submit(runTask);
+
+        Future<String> res = null;
+        try {
+            res = pool.submit(runTask);
+        } catch (RejectedExecutionException e) {
+            return WAIT_WARNING;
+        }
 
         // 获取运行结果，处理非客户端代码错误
         String runResult;
@@ -64,6 +73,6 @@ public class ExecuteStringSourceService {
         } finally {
             res.cancel(true);
         }
-        return runResult;
+        return runResult != null ? runResult : NO_OUTPUT;
     }
 }
