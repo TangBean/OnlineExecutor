@@ -37,6 +37,19 @@ public class ExecuteStringSourceServiceTest {
                 "\t}\n" +
                 "}";
 
+        // 测试 Scanner in = new Scanner(System.in);
+        String sourceTestSystemIn = "import java.util.Scanner;\n" +
+                "public class Run {\n" +
+                "\tpublic static void main(String[] args) {\n" +
+                "\t\tScanner in = new Scanner(System.in);\n" +
+                "\t\tSystem.out.println(in.nextInt());\n" +
+                "\t\tSystem.out.println(in.nextDouble());\n" +
+                "\t\tSystem.out.println(in.next());\n" +
+                "\t}\n" +
+                "}";
+
+        String systemIn = "1 1.5 \n fsdfasdfasdf";
+
 ////        new Thread() {
 ////            @Override
 ////            public void run() {
@@ -56,7 +69,7 @@ public class ExecuteStringSourceServiceTest {
 //            }
 //        }.start();
 
-        String res = executeStringSourceService.execute(source);
+        String res = executeStringSourceService.execute(sourceTestSystemIn, systemIn);
         System.out.println("---------- Begin ----------");
         System.out.print(res);
         System.out.println("----------- End -----------");

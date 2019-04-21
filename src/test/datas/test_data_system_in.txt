@@ -1,0 +1,12 @@
+import java.util.Scanner;
+public class Run {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println(in.nextInt());
+        System.out.println(in.nextDouble());
+        System.out.println(in.next());
+    }
+}
+
+1 1.5
+fsdfasdfasdf

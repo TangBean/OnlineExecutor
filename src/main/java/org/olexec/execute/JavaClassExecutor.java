@@ -18,20 +18,22 @@ public class JavaClassExecutor {
     /* 程序中正在运行的客户端代码个数 */
 //    private static volatile AtomicInteger runningCount = new AtomicInteger(0);
 
-    public static String execute(byte[] classByte) {
+    public static String execute(byte[] classByte, String systemIn) {
         // 2. new ClassModifier，并传入需要被修改的字节数组
         ClassModifier cm = new ClassModifier(classByte);
 
         // 3. 调用ClassModifier#modifyUTF8Constant修改
-        byte[] modifyBytes = cm.modifyUTF8Constant("java/lang/System",
-                "org/olexec/execute/HackSystem");
+        byte[] modifyBytes = cm.modifyUTF8Constant("java/lang/System","org/olexec/execute/HackSystem");
+        modifyBytes = cm.modifyUTF8Constant("java/util/Scanner", "org/olexec/execute/HackScanner");
+
+        // 设置用户传入的标准输入
+        ((HackInputStream) HackSystem.in).set(systemIn);
 
         // 4. new一个类加载器，把字节数组加载为Class对象
         HotSwapClassLoader classLoader = new HotSwapClassLoader();
         Class clazz = classLoader.loadByte(modifyBytes);
 
         // 5. 通过反射调用Class对象的main方法
-//        runningCount.incrementAndGet();
         try {
             Method mainMethod = clazz.getMethod("main", new Class[] { String[].class });
             mainMethod.invoke(null, new String[] { null });
@@ -48,7 +50,6 @@ public class JavaClassExecutor {
             */
             e.getCause().printStackTrace(HackSystem.err);
         }
-//        runningCount.addAndGet(-1);
 
         // 6. 从HackSystem中获取返回结果
         String res = HackSystem.getBufferString();

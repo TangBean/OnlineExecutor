@@ -13,6 +13,9 @@
     <div class="control" style="width:70%;margin: 10px auto">
         <textarea class="textarea is-success" id="myInput" name="source" rows="15" cols="180">${lastSource!}</textarea>
     </div>
+    <div class="control" style="width:70%;margin: 10px auto">
+        <textarea class="textarea is-success" id="mySystemIn" name="systemIn" rows="4" cols="180" placeholder="System Input!">${lastSystemIn!}</textarea>
+    </div>
     <input class="bttn-simple bttn-md bttn-primary" type="submit" value="Run" />
     <script type="text/javascript">
         var myInput = document.getElementById("myInput");
@@ -51,6 +54,8 @@
     </script>
 </form>
 </div>
+
+
 
 <div id="showRunResult" style="border:1px solid; padding: 3px; width:70%; margin-top:10px;
 position:absolute;left:50%;transform:translate(-50%);">${runResult!}</div>

@@ -30,11 +30,13 @@ public class RunCodeController {
     }
 
     @RequestMapping(path = {"/run"}, method = RequestMethod.POST)
-    public String runCode(@RequestParam("source") String source, Model model) {
-        String runResult = executeStringSourceService.execute(source);
+    public String runCode(@RequestParam("source") String source,
+                          @RequestParam("systemIn") String systemIn, Model model) {
+        String runResult = executeStringSourceService.execute(source, systemIn);
         runResult = runResult.replaceAll(System.lineSeparator(), "<br/>"); // 处理html中换行的问题
 
         model.addAttribute("lastSource", source);
+        model.addAttribute("lastSystemIn", systemIn);
         model.addAttribute("runResult", runResult);
         return "ide";
     }

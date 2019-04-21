@@ -12,7 +12,7 @@ public final class HackSystem {
     private HackSystem() {
     }
 
-    public final static InputStream in = System.in;
+    public final static InputStream in = new HackInputStream();
 
     public final static PrintStream out = new HackPrintStream();
 
@@ -26,9 +26,10 @@ public final class HackSystem {
     }
 
     /**
-     * 关闭当前线程的输出流
+     * 关闭当前线程的输入流和输出流
      */
     public static void closeBuffer() {
+        ((HackInputStream) in).close();
         out.close();
     }
 
@@ -54,8 +55,7 @@ public final class HackSystem {
         throw new SecurityException("Use hazardous method: System.inheritedChannel().");
     }
 
-    public static
-    void setSecurityManager(final SecurityManager s) {
+    public static void setSecurityManager(final SecurityManager s) {
         throw new SecurityException("Use hazardous method: System.setSecurityManager().");
     }
 
@@ -111,7 +111,7 @@ public final class HackSystem {
         throw new SecurityException("Use hazardous method: System.getenv().");
     }
 
-    public static java.util.Map<String,String> getenv() {
+    public static java.util.Map<String, String> getenv() {
         throw new SecurityException("Use hazardous method: System.getenv().");
     }
 

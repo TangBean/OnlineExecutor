@@ -25,7 +25,7 @@ public class ExecuteStringSourceService {
     private static final String WAIT_WARNING = "服务器忙，请稍后提交";
     private static final String NO_OUTPUT = "Nothing.";
 
-    public String execute(String source) {
+    public String execute(String source, String systemIn) {
         DiagnosticCollector<JavaFileObject> compileCollector = new DiagnosticCollector<>(); // 编译结果收集器
 
         // 编译源代码
@@ -49,7 +49,7 @@ public class ExecuteStringSourceService {
         Callable<String> runTask = new Callable<String>() {
             @Override
             public String call() throws Exception {
-                return JavaClassExecutor.execute(classBytes);
+                return JavaClassExecutor.execute(classBytes, systemIn);
             }
         };
 
