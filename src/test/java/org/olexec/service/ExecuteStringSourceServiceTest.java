@@ -50,6 +50,16 @@ public class ExecuteStringSourceServiceTest {
 
         String systemIn = "1 1.5 \n fsdfasdfasdf";
 
+        // Test2
+        String sourceTestSystemIn1 = "import java.util.*;\n" +
+                "public class Run {\n" +
+                "\tpublic static void main(String[] args) {\n" +
+                "\t\tScanner in = new Scanner(System.in);\n" +
+                "\t}\n" +
+                "}";
+
+        String systemIn1 = "";
+
 ////        new Thread() {
 ////            @Override
 ////            public void run() {
@@ -69,7 +79,7 @@ public class ExecuteStringSourceServiceTest {
 //            }
 //        }.start();
 
-        String res = executeStringSourceService.execute(sourceTestSystemIn, systemIn);
+        String res = executeStringSourceService.execute(sourceTestSystemIn1, systemIn1);
         System.out.println("---------- Begin ----------");
         System.out.print(res);
         System.out.println("----------- End -----------");
